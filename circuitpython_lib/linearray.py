@@ -7,6 +7,7 @@
 ====================================================
 
 This is a CircuitPython library for Line Array sensor by Alexander Kirillov.
+Requires adafruit_bus_device library
 
 * Author(s): Alexander Kirillov
 * Version: 4.0
@@ -34,7 +35,7 @@ REG_SENSOR_CAL = const(18)
 REG_SENSOR_DIGITAL = const(30)
 
 class LineArray:
-    def __init__(self, i2c = board.STEMMA_I2C(), address=LINEARRAY_I2C_ADDR):
+    def __init__(self, i2c, address=LINEARRAY_I2C_ADDR):
         self._device = I2CDevice(i2c, address, probe = False)
         try:
             chipid = self._read_8(REG_WHOAMI)
