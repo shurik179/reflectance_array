@@ -1,0 +1,119 @@
+# SPDX-FileCopyrightText: Copyright 2021-2023 Alexander Kirillov <shurik179@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
+"""
+`linearray`
+====================================================
+
+This is a CircuitPython library for Line Array sensor by Alexander Kirillov.
+
+* Author(s): Alexander Kirillov
+* Version: 4.0
+"""
+
+import board
+from adafruit_bus_device.i2c_device import I2CDevice
+import time
+from digitalio import DigitalInOut, Direction, Pull
+
+LINEARRAY_I2C_ADDR =const(0x11)
+MODE_ON = const(1)
+MODE_OFF = const(0)
+MODE_CAL = const(2)
+MODE_CAL_END = const(3)
+LINEMODE_BLACKONWHITE = const(0)
+LINEMODE_WHITEONBLACK = const(1)
+NUM_SENSORS = const(6)
+REG_WHOAMI = const(0)
+REG_MODE = const (1)
+REG_FW_MINOR = const(3)
+REG_FW_MAJOR = const (4)
+REG_SENSOR_RAW = const(6)
+REG_SENSOR_CAL = const(18)
+REG_SENSOR_DIGITAL = const(30)
+
+class LineArray:
+    def __init__(self, i2c = board.STEMMA_I2C(), address=LINEARRAY_I2C_ADDR):
+        self._device = I2CDevice(i2c, address, probe = False)
+        try:
+            chipid = self._read_8(REG_WHOAMI)
+        except:
+            chipid = 0
+            i2c.unlock()
+            print("Failed to find the sensor")
+        if chipid != 0:
+            print("Found sensor with ID {}".format(hex(chipid)))
+
+######## Firmware version
+    def fw_version(self):
+        """Returns firmware version as a string"""
+        minor = self._read_8(REG_FW_MINOR)
+        major = self._read_8(REG_FW_MAJOR)
+        return("{}.{}".format(major,minor))
+    
+#######  Setting mode 
+    def start(self):
+        self._write_8(REG_MODE, MODE_ON)
+
+    def stop(self):
+        self._write_8(REG_MODE, MODE_OFF)
+
+    def start_cal(self):
+        self._write_8(REG_MODE, MODE_CAL)
+
+    def end_cal(self):
+        self._write_8(REG_MODE, MODE_CAL_END)
+
+
+####### Reading sensor 
+    def raw(self, i):
+        if (i>=NUM_SENSORS):
+            return(0) #out of range 
+        return (self._read_16(REG_SENSOR_RAW+2*i))
+
+    def calibrated(self, i):
+        if (i>=NUM_SENSORS):
+            return(0) #out of range 
+        return (self._read_16(REG_SENSOR_CAL+2*i))
+
+    def all_black(self):
+        #0x3F = 0b00111111 
+        data = self._read_8(REG_SENSOR_DIGITAL) &0x3F
+        return ( data == 0)  
+    
+    def all_white(self):
+        #0x3F = 0b00111111 
+        data = self._read_8(REG_SENSOR_DIGITAL) &0x3F
+        return ( data == 0x3F)  
+    
+    def on_white(self, i):        
+        return bool(self._read_8(REG_SENSOR_DIGITAL) & (1<<i))
+
+    def on_black(self, i):        
+        return (not bool(self._read_8(REG_SENSOR_DIGITAL) & (1<<i)))
+
+
+##########  I2C UTILITY  ########################################
+    def _write_8(self, address, data):
+        # Write 1 byte of data to the specified  register address.
+        with self._device:
+            self._device.write(bytes([address & 0xFF, data]))
+
+    def _read_8(self, address):
+        # Read and return a byte from  the specified register address.
+        with self._device:
+            result = bytearray(1)
+            self._device.write(bytes([address & 0xFF]))
+            self._device.readinto(result)
+            #self._device.write_then_readinto(bytes([address & 0xFF]),result)
+            return result[0]
+        
+    def _read_16(self, address):
+        # Read and return an unsigned 16bit int from  the specified register address (low byte at address, high byte at address+1)
+        with self._device:
+            result = bytearray(2)
+            self._device.write(bytes([address & 0xFF]))
+            self._device.readinto(result)
+            return (result[0]|(result[1]<<8))
+                    
