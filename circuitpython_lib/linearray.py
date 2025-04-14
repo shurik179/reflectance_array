@@ -28,11 +28,14 @@ LINEMODE_WHITEONBLACK = const(1)
 NUM_SENSORS = const(6)
 REG_WHOAMI = const(0)
 REG_MODE = const (1)
+REG_LINE_MODE = const (2)
 REG_FW_MINOR = const(3)
 REG_FW_MAJOR = const (4)
 REG_SENSOR_RAW = const(6)
 REG_SENSOR_CAL = const(18)
 REG_SENSOR_DIGITAL = const(30)
+REG_LINE_POS = const (31)
+REG_CALIBRATIONS = const(32)
 
 class LineArray:
     def __init__(self, i2c, address=LINEARRAY_I2C_ADDR):
@@ -93,7 +96,22 @@ class LineArray:
 
     def on_black(self, i):        
         return (not bool(self._read_8(REG_SENSOR_DIGITAL) & (1<<i)))
+####### Reading line position
+    
+    def set_linemode(self, mode):
+        self._write_8(REG_LINE_MODE, mode)
 
+    def line_pos(self):
+        return(self._read_8(REG_LINE_POS))
+    
+    
+####### Reading calibration values 
+    def get_cal_black(self, s):
+        return (self._read_16(REG_CALIBRATIONS+4*s))
+    def get_cal_white(self, s):
+        return (self._read_16(REG_CALIBRATIONS+4*s+2))
+    
+    
 
 ##########  I2C UTILITY  ########################################
     def _write_8(self, address, data):

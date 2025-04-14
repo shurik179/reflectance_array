@@ -12,7 +12,7 @@
 #define PIN_ADDR PIN_PC2 //for changing I2C address
 
 #define NUM_SENSORS 6
-#define NUM_REGISTERS 32 //size of register bank, in bytes
+#define NUM_REGISTERS 60 //size of register bank, in bytes
 #define SLAVE_ADDRESS 0x11
 #define MODE_OFF 0
 #define MODE_ON 1
@@ -41,6 +41,8 @@ uint8_t mode = MODE_ON;
 #define REG_SENSOR_DIGITAL 30 // byte containing sensor readings in digital (0/1) form, 1 bit for sensor
                               // least significant bit is sensor 0                          
 #define REG_LINE_POS 31 //line position as uint8_t, ranges 0-100                               
+#define REG_CALIBRATIONS 32 //start of calibration data, 4 bytes per sensor: black low byte, black high, white low, white high
+
 
 uint8_t SensorPins[NUM_SENSORS] = { PIN_PB4, PIN_PB5, PIN_PA7, PIN_PA6, PIN_PA5, PIN_PA4 };
 uint16_t BlackCalibration[NUM_SENSORS] = {120,120,120,120,120,120};
@@ -85,8 +87,8 @@ void loop() {
         if (mode == MODE_CAL) { //starting calibration
             //reset calibrartion data 
             for (s =0; s<NUM_SENSORS; s++){
-                BlackCalibration[s]=0;
-                WhiteCalibration[s]=1023;
+                BlackCalibration[s]=1023;
+                WhiteCalibration[s]=0;
             }
         } else if (mode == MODE_CAL_END) { //ending calibration
             //save calibration data to eeprom  
@@ -98,24 +100,32 @@ void loop() {
     }
     //if (mode == MODE_OFF) return; //no need to measure anything 
     //otherwise, get sensor values; also compute the average, for line position 
-    uint16_t pos = 0;
+    uint32_t line_pos, weighted_sum = 0;
     uint16_t total_weight = 0;
-    uint16_t r,line_pos;
+    uint16_t r;
     for (s=0; s<NUM_SENSORS; s++){
         if (mode == MODE_CAL) {update_calibration(s);}
         else {
             r = update_value(s); //returns calibrated value 
             if (DevRegister[REG_LINE_MODE] == LINEMODE_BLACKONWHITE) {r=1023-r;}
             //computing the weighted average of sensor indexes, using reading as weight
-            //will be used for line position 
-            pos += s* r;
+            //will be used for line position
+            // if sensor is close to black, let's count it as black  
+            
+            if (r>=150) {
+                r -=150;
+            } else {
+                r = 0;
+            }
+            //else if (r>750) {r=1023;}
+            weighted_sum += s* r;
             total_weight += r; 
         }
     }
     //now, get the line position 
     if (total_weight) { //just in case, to make sure we are not dividing by 0
-        line_pos = (pos*20)/total_weight; //ranges between 0 - (NUM_SENSORS-1)*20, i.e. 0-100
-        DevRegister[REG_LINE_POS] = line_pos;
+        line_pos = (weighted_sum*20)/total_weight; //ranges between 0 - (NUM_SENSORS-1)*20, i.e. 0-100
+        DevRegister[REG_LINE_POS] = (uint8_t)line_pos;
     }
 }
 
@@ -198,9 +208,12 @@ void save_calibration(){
         // each value takes 2 bytes, so 4 bytes per sensor: 2 for black value, 2 for white
         EEPROM.put(4*s,  BlackCalibration[s]);
         EEPROM.put(4*s+2,  WhiteCalibration[s]);
+        //now, save to register
+        DevRegister[REG_CALIBRATIONS+4*s]  = (uint8_t)BlackCalibration[s];
+        DevRegister[REG_CALIBRATIONS+4*s+1]= (uint8_t)(BlackCalibration[s]>>8);
+        DevRegister[REG_CALIBRATIONS+4*s+2]= (uint8_t)WhiteCalibration[s];
+        DevRegister[REG_CALIBRATIONS+4*s+3]= (uint8_t)(WhiteCalibration[s]>>8);
     }
-    //for testing purposes:
-    DevRegister[REG_STATUS] = (uint8_t) BlackCalibration[0];
 }
 
 //gets calibration data from eeprom
@@ -210,9 +223,14 @@ void read_calibration (){
         // each value takes 2 bytes, so 4 bytes per sensor: 2 for black value, 2 for white
         EEPROM.get(4*s,  black);
         EEPROM.get(4*s+2,  white);
-        if (white > 0  && white <= 1023) { //basic sanity check, to make sure eeprom has valid values
+        if ( (white > 0 ) && (white <= 1023) ) { //basic sanity check, to make sure eeprom has valid values
             BlackCalibration[s] = black;
             WhiteCalibration[s] = white;
         }
+        //now, save to register
+        DevRegister[REG_CALIBRATIONS+4*s]  = (uint8_t)BlackCalibration[s];
+        DevRegister[REG_CALIBRATIONS+4*s+1]= (uint8_t)(BlackCalibration[s]>>8);
+        DevRegister[REG_CALIBRATIONS+4*s+2]= (uint8_t)WhiteCalibration[s];
+        DevRegister[REG_CALIBRATIONS+4*s+3]= (uint8_t)(WhiteCalibration[s]>>8);
     }
 }
