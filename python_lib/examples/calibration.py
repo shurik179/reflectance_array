@@ -30,6 +30,16 @@ sensor=LineArray(i2c)
 print("Firmware version: {}".format(sensor.fw_version()))
 time.sleep(1)
 sensor.start()
+
+#print out current calibration values (optional)
+print("current calibration")
+print("Black White")
+for s in range(6):
+    black = sensor.get_cal_black(s)
+    white = sensor.get_cal_white(s)
+    print(f'{black:5} {white:5}')
+time.sleep(3)
+
 #start calibration
 print("Starting calibration")
 sensor.start_cal()
@@ -37,11 +47,11 @@ sensor.start_cal()
 # during this time, sensor should be moved so that each sensor sees both white and black. 
 # keep the sensor at the same distance from surface - do not lift the sensor
 
-#after 5 secodns, end calibration
+#after 5 seconds, end calibration
 time.sleep(5)
 sensor.end_cal()
-print("Calibration complete. Calibration values are shown below")
-#print out calibration values (optional)
+print("Calibration complete. New calibration values are shown below")
+#print out new calibration values (optional)
 print("Black White")
 for s in range(6):
     black = sensor.get_cal_black(s)

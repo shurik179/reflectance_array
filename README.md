@@ -1,8 +1,9 @@
 # Reflectance array
-This repository contains code and hardware design files for a 6-sensor reflectance line array with i2c interface. 
+This repository contains code, hardware design files and more  for a 6-sensor reflectance line array with i2c interface. 
 It is work in progress.
 
 Structure of the repository:
+- docs: source files for readthedocs documentation 
 - hardware: board design files (KiCad8)
 - firmware: board firmware (Arduino sketch,using [megatinycore Arduino core](https://github.com/SpenceKonde/megaTinyCore))
 - python_lib: library for using the sensor (Micropython/CircuitPython)
