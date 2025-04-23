@@ -19,6 +19,8 @@ Below are the key features of this sensor.
 * contains an MCU (attiny 1616) which takes care of reading individual sensor input,  applying calibrations, and computing line position for line following tasks
 * provides **qwiic/stemma qt connector** as well as standard 0.1" header connector (requires soldering)
 * can be turned off to save batteries
+* provided micropython/Circuit Python library (Arduino library will be added shortly)
+
 
 .. toctree::
     :caption: Table of Contents
