@@ -1,13 +1,15 @@
 **********************
 Hardware details
 **********************
+
+.. figure:: images/board_bottom.jpg
+    :alt: board bottom view
+    :width: 85%
+
 .. figure:: images/board_top.jpg
     :alt: board top view
     :width: 80%
     
-.. figure:: images/board_bottom.jpg
-    :alt: board bottom view
-    :width: 80%
 
 The photos above show the reflectance array sensor board. It contains the following elements:
 
