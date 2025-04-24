@@ -7,8 +7,9 @@ In this chapter, we give full list of all commands provided by refelectance
 array micropython/Circuit Python library.
 
 This document describes version 1.0 of the library. It assumes that you 
-had already created object LineArray object; all methods below are methods 
-of this object (e.g. ). Sensor index s ranges from 0--5
+had already created a  LineArray object; all methods below are methods 
+of this object. Sensor index s ranges between 0--5; 0 is the rightmost sensor, and 5, the leftmost.
+
 
 
 Basic commands
@@ -90,6 +91,23 @@ your sensor before using these functiosn.
    Returns True if all sensors are on black (respectively, white) and False otherwise. 
 
 
+Line position 
+=============
+
+For line following tasks, you can use the functions below. They work best with line widths of 1/2-3/4" 
+(12-20mm). 
+
+.. function:: set_linemode(mode)
+
+   Sets the mode for line position function. There are two possible modes: 
+   LINEMODE_WHITEONBLACK - for tracking white line on black background and 
+   LINEMODE_BLACKONWHITE - for black line on white background
+
+.. function:: line_pos()
+
+   Returns the position of the line under the robot. The return  value ranges 0-100; 
+   0 means that the line is all the way to the right and 100, all the way to the left. 
+   If no sensor sees the line, the function will still return a value, which is undeprdictable. 
 
 
 
