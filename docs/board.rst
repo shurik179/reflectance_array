@@ -8,7 +8,15 @@ The photos above show the reflectance array sensor board. It contains the follow
   sensors, which have much longer range than typical reflectance sensor (4mm vs 1mm). 
 * Constant current LED driver; this makes the sensor much more efficient as no power is wasted on resistors
 * An attiny 1616 MCU 
-* A qwiic/stemma qt connector and holes for soldering an 0.1" headers
+* A `qwiic/stemma qt <https://www.sparkfun.com/qwiic>`__ connector and holes for soldering an 0.1" headers
+
+Board dimensions are shown below. 
+
+
+.. figure:: images/board_dimensions.png
+    :alt: board dimensions
+    :width: 80%
+    
 
 To connect the sensor to your microcontroller, use a qwiic cable to connect it to the i2c connector of the MCU. 
 
@@ -23,8 +31,3 @@ To mount the sensor to your robot, you can use the mounting holes; they  have 3.
 and are intended to be used with M3 screws. Alternatively, you can make a 3d-printed snap mount - one such snap 
 mount for XPR robot can be found in 3d printed folder in |github|.  The sensor should be mounted so that the 
 distance from the bottom of the PCB to ground is about 6 mm.  
-
-.. figure:: images/board_dimensions.png
-    :alt: board dimensions
-    :width: 60%
-    

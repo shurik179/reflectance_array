@@ -1,6 +1,6 @@
 .. _library:
 **************************
-Yozh Library Reference
+Python Library Reference
 **************************
 
 In this chapter, we give full list of all commands provided by refelectance 
