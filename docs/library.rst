@@ -28,7 +28,7 @@ Basic commands
 
 .. function:: raw(s)
 
-   Returns raw reading of the sensor (0-1023). The darker the surface, 
+   Returns raw reading of  s-th reflection sensor (0-1023). The darker the surface, 
    the lower the value. Typical value on a white sheet of paper is around 950, 
    and on black plastic, around 120. 
 
@@ -36,11 +36,11 @@ Basic commands
 Calibration
 ===========
 You can calibrate the sensor, recording  values for black and white; these values 
-will be used for computing calibrated readings and for deciding when the senosr 
+will be used for computing calibrated readings and for deciding when the sensor 
 is on black/white (see below). 
 
-.. function:: start_cal(s)
-.. function:: end_cal(s)
+.. function:: start_cal()
+.. function:: end_cal()
 
    Starts and stops calibration. In between these commands, it is expected that 
    you move the robot so that each sensor sees both white and black. The lowest 
@@ -53,7 +53,7 @@ is on black/white (see below).
 .. function:: get_cal_white(s)
 
    Returns the value of black (repsectively, white) calibration for sensor s. 
-   This is rarely needed - mostly to verify that calibration was scuccessful 
+   This is rarely needed - mostly to verify that calibration was successful 
    in cases when your sensor behaves unexpectedly. 
    
 
@@ -61,15 +61,17 @@ Calibrated readings
 ===================
 .. function:: calibrated(s)
 
-   This function assumes that you had already calibrated your sensor. It returns calibrated value. For example, if calibration values were 300 (black) and 800 (white)
+   This function assumes that you had already calibrated your sensor. It returns 
+   calibrated value. For example, if calibration values were 300 (black) and 800 (white)
    then raw reading of 300 or less  will give calibrated reading 0, raw reading of 800 
    or above will give calibrated reading of 1023, and all values in between will be 
    rescaled linearly - e.g., raw reading of 550 (which is exactly the midpoint between 300 and 800)
    will give calibrated reading of 512. 
 
 Digital readings
-================    
-The functions below expect that you have already calibrated your sensor. 
+================  
+In many cases you only need to know if the sensor is on black/white and not interested in exact reading. 
+In these cases, it is much faster to use the functions below. As before, you shoudl calibrate your sensor before using htese functiosn. 
 
 .. function:: on_black(s)
 .. function:: on_white(s)
@@ -78,8 +80,10 @@ The functions below expect that you have already calibrated your sensor.
    The cutoff between white and black is defined to be the  midpoint between black 
    and white calibration values. 
 
+.. function:: all_black()
+.. function:: all_white()
 
-
+   Returns True if all sensors are on black (respectively, white) and False otherwise. 
 
 
 
