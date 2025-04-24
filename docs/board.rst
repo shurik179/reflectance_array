@@ -23,3 +23,8 @@ To mount the sensor to your robot, you can use the mounting holes; they  have 3.
 and are intended to be used with M3 screws. Alternatively, you can make a 3d-printed snap mount - one such snap 
 mount for XPR robot can be found in 3d printed folder in |github|.  The sensor should be mounted so that the 
 distance from the bottom of the PCB to ground is about 6 mm.  
+
+.. figure:: images/board_dimensions.png
+    :alt: board dimensions
+    :width: 60%
+    
