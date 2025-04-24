@@ -7,8 +7,8 @@ Reflectance Array with I2C interface
     :width: 85%
 
 
-This document describes the reflectanse array sensor created by `shurik179 <https://github.com/shurik179>`__. It is intended for use 
-with small robots for tasks such as line following, sumo robots, and more.  All software and hardware 
+This document describes the reflectance array sensor created by `shurik179 <https://github.com/shurik179>`__. 
+It is intended for use with small robots for tasks such as line following, sumo robots, and more.  All software and hardware 
 files are available under an open source license from the project |github|; 
 you can also buy a completed sensor from my Tindie store. 
 

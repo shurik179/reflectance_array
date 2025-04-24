@@ -100,14 +100,14 @@ For line following tasks, you can use the functions below. They work best with l
 .. function:: set_linemode(mode)
 
    Sets the mode for line position function. There are two possible modes: 
-   LINEMODE_WHITEONBLACK - for tracking white line on black background and 
+   LINEMODE_WHITEONBLACK - for tracking white line on black background 
    LINEMODE_BLACKONWHITE - for black line on white background
 
 .. function:: line_pos()
 
    Returns the position of the line under the robot. The return  value ranges 0-100; 
    0 means that the line is all the way to the right and 100, all the way to the left. 
-   If no sensor sees the line, the function will still return a value, which is undeprdictable. 
+   If no sensor sees the line, the function will still return a value, which is unpredictable. 
 
 
 

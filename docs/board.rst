@@ -27,7 +27,9 @@ Board dimensions are shown below.
     :width: 80%
     
 
-To connect the sensor to your microcontroller, use a qwiic cable to connect it to the i2c connector of the MCU. 
+To connect the sensor to your microcontroller, use a qwiic cable (available from `Adafruit <https://www.adafruit.com/product/4210>`__ 
+or `Sparkfun <https://www.sparkfun.com/flexible-qwiic-cable-100mm.html>`__ ) 
+to connect it to the i2c connector of the MCU. 
 
 By default, the sensor uses i2c address 0x11. However, you can change that: if you close the solder bridge 
 labeled "I2C addr", the sensor will use i2c address  0x12. This allows one to use two such sensors on the same i2c bus.
