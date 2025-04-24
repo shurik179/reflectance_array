@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2021-2023 Alexander Kirillov <shurik179@gmail.com>
+# SPDX-FileCopyrightText: Copyright 2025 Alexander Kirillov <shurik179@gmail.com>
 #
 # SPDX-License-Identifier: MIT
 

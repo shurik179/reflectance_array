@@ -55,5 +55,11 @@ Circuit Python (you may need to replace 'board.I2C()' by 'board.STEMMA_I2C()', s
         time.sleep(0.3)
 
 
+The folder 'Examples' contains several code examples:
 
-Full list of all avaialble methods provided by this library, see :ref:`Python Library <library>`.
+* basic_test.py: the basic example - same code as given above
+* calibration.py: example of sensor calibration 
+* digital.py: when you only need to know if a given sensor is on white/black 
+* line_pos.py: getting the position of the line under your robot, for line following 
+
+For a full list of all available methods provided by this library, see :ref:`Python Library <library>`.

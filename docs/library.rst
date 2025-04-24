@@ -11,8 +11,20 @@ had already created object LineArray object; all methods below are methods
 of this object (e.g. ). Sensor index s ranges from 0--5
 
 
-Basic usage
-===========
+Basic commands
+==============
+
+.. function:: start()
+.. function:: stop() 
+
+    Starting and stopping the sensor. By default, the sensor is active. To save battery, 
+    you can stop it by using `stop()`; this turns off the power to IR LEDs inside reflactance 
+    sensors.  Note that you can still read the reflectance sensor values even when the LEDs are off; 
+    this can be useful for detecting ambience light changes.
+
+.. function:: fw_version()
+
+    Returns firmware version as a string, e.g. `1.3`
 
 .. function:: raw(s)
 
