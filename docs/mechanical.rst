@@ -1,5 +1,0 @@
-**********************
-Mechanical
-**********************
-
-Dimensions, mounting, connecting 

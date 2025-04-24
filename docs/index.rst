@@ -26,7 +26,7 @@ Below are the key features of this sensor.
     :caption: Table of Contents
     :maxdepth: 1
 
-    mechanical
+    board
     software_installation
     library
   
