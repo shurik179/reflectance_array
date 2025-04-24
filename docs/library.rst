@@ -18,9 +18,9 @@ Basic commands
 .. function:: stop() 
 
     Starting and stopping the sensor. By default, the sensor is active. To save battery, 
-    you can stop it by using `stop()`; this turns off the power to IR LEDs inside reflactance 
+    you can stop it by using `stop()`; this turns off the power to IR LEDs inside reflectance 
     sensors.  Note that you can still read the reflectance sensor values even when the LEDs are off; 
-    this can be useful for detecting ambience light changes.
+    this can be useful for detecting ambient light changes.
 
 .. function:: fw_version()
 
@@ -39,20 +39,23 @@ You can calibrate the sensor, recording  values for black and white; these value
 will be used for computing calibrated readings and for deciding when the sensor 
 is on black/white (see below). 
 
+ The calibration values are saved in EEPROM, which means that they are preserved  
+ even when you turn off the  power to the sensor; they  will be loaded on next power-up. 
+
+
+
 .. function:: start_cal()
 .. function:: end_cal()
 
    Starts and stops calibration. In between these commands, it is expected that 
    you move the robot so that each sensor sees both white and black. The lowest 
    recorded value will be saved as black calibration, and the highest, as white 
-   calibration; these are saved individaully per sensor. The calibration values 
-   are saved in EEPROM, which means taht they are saved even when you turn off the 
-   power to the sensor and will be loaded on next power-up. 
+   calibration; these are saved individaully per sensor.
 
 .. function:: get_cal_black(s)
 .. function:: get_cal_white(s)
 
-   Returns the value of black (repsectively, white) calibration for sensor s. 
+   Returns the value of black (respectively, white) calibration for sensor s. 
    This is rarely needed - mostly to verify that calibration was successful 
    in cases when your sensor behaves unexpectedly. 
    
@@ -71,7 +74,8 @@ Calibrated readings
 Digital readings
 ================  
 In many cases you only need to know if the sensor is on black/white and not interested in exact reading. 
-In these cases, it is much faster to use the functions below. As before, you shoudl calibrate your sensor before using htese functiosn. 
+In these cases, it is much faster to use the functions below. As before, you should calibrate 
+your sensor before using these functiosn. 
 
 .. function:: on_black(s)
 .. function:: on_white(s)
