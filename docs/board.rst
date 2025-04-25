@@ -18,6 +18,8 @@ The photos above show the reflectance array sensor board. It contains the follow
 * Constant current LED driver; this makes the sensor much more efficient as no power is wasted on resistors
 * An attiny 1616 MCU 
 * A `qwiic/stemma qt <https://www.sparkfun.com/qwiic>`__ connector and holes for soldering an 0.1" headers
+* Power requirements: the board uses about 50 mA at 3.3v. It is possible to turn off the LEDs in software 
+  to save power. 
 
 Board dimensions are shown below. 
 
