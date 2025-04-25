@@ -6,8 +6,8 @@
 #include <EEPROM.h>
 
 //firmware version 
-#define FW_MINOR 8
-#define FW_MAJOR 0
+#define FW_MINOR 0
+#define FW_MAJOR 1
 #define PIN_ENABLE PIN_PB3
 #define PIN_ADDR PIN_PC2 //for changing I2C address
 
