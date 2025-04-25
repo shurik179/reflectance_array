@@ -33,15 +33,23 @@ sensor=LineArray(i2c)
 print("Firmware version: {}".format(sensor.fw_version()))
 time.sleep(2)
 sensor.start()
+#print out current calibration values (optional)
+print("current calibration")
+print("Black White")
+for s in range(6):
+    black = sensor.get_cal_black(s)
+    white = sensor.get_cal_white(s)
+    print(f'{black:5} {white:5}')
+time.sleep(3)
 while True:
     for s in range(6):
         if (sensor.on_white(s)):
-            print("1 ", end=' ')
+           print("1 ", end=' ')
         else:
             print("0 ", end=' ')
-    if (sensor.all_on white()):
+    if (sensor.all_white()):
         message = " all on white"
-    elif (sensor.all_on_black()):
+    elif (sensor.all_black()):
         message = " all on black "
     else:
         message = ' '

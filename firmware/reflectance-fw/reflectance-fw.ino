@@ -184,7 +184,7 @@ uint16_t  update_value(uint8_t s){
         DevRegister[REG_SENSOR_DIGITAL] |= (1<<s); 
     } else {
         //sensor s is black: unset s-th bit  
-        DevRegister[REG_SENSOR_DIGITAL] &= (0b11111110<<s);             
+        DevRegister[REG_SENSOR_DIGITAL] &= ~(1<<s);             
     }
     return(calReading);
 }
